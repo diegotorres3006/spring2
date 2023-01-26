@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -51,21 +52,32 @@ public class Fundamentos2Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        ejemplosAnteriores();
+//      ejemplosAnteriores();
         saveUsersInDataBase();
+        getInformationJpqlFromUser();
+    }
+
+    private void getInformationJpqlFromUser(){
+        LOGGER.info("Usuario con el método findByUserEmail "+userRepository.findByUserEmail("Diego@email")
+                .orElseThrow(()-> new RuntimeException("No se encontró el usuario")));
+
+        userRepository.findAndSort("U", Sort.by("id").ascending())
+                .stream()
+                .forEach(user-> LOGGER.info("Usuario con método sort"+user));
+
     }
 
     private void saveUsersInDataBase(){
         User user1 = new User("Jhon","Jhon@email", LocalDate.of(2021, 03, 20));
         User user2 = new User("Diego","Diego@email", LocalDate.of(2002, 06, 30));
         User user3 = new User("Andres","Andres@email", LocalDate.of(2002, 05, 1));
-        User user4 = new User("Marisol", "marisol@domain.com", LocalDate.of(2021, 6, 18));
-        User user5 = new User("Karen", "karen@domain.com", LocalDate.of(2021, 1, 1));
-        User user6 = new User("Carlos", "carlos@domain.com", LocalDate.of(2021, 7, 7));
-        User user7 = new User("Enrique", "enrique@domain.com", LocalDate.of(2021, 11, 12));
-        User user8 = new User("Luis", "luis@domain.com", LocalDate.of(2021, 2, 27));
-        User user9 = new User("Paola", "paola@domain.com", LocalDate.of(2021, 4, 10));
-        User user10 = new User("Maria", "maria@domain.com", LocalDate.of(2020, 6, 18));
+        User user4 = new User("UMarisol", "marisol@domain.com", LocalDate.of(2021, 6, 18));
+        User user5 = new User("UKaren", "karen@domain.com", LocalDate.of(2021, 1, 1));
+        User user6 = new User("UCarlos", "carlos@domain.com", LocalDate.of(2021, 7, 7));
+        User user7 = new User("UEnrique", "enrique@domain.com", LocalDate.of(2021, 11, 12));
+        User user8 = new User("ULuis", "luis@domain.com", LocalDate.of(2021, 2, 27));
+        User user9 = new User("UPaola", "paola@domain.com", LocalDate.of(2021, 4, 10));
+        User user10 = new User("UMaria", "maria@domain.com", LocalDate.of(2020, 6, 18));
 
         List<User> list = Arrays.asList(user1,user2,user3,user4,user5,user6,user7,user8,user9,user10);
         list.stream().forEach(userRepository::save);
