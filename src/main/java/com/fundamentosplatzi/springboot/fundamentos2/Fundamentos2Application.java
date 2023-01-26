@@ -58,12 +58,42 @@ public class Fundamentos2Application implements CommandLineRunner {
     }
 
     private void getInformationJpqlFromUser(){
-        LOGGER.info("Usuario con el método findByUserEmail "+userRepository.findByUserEmail("Diego@email")
-                .orElseThrow(()-> new RuntimeException("No se encontró el usuario")));
+//        LOGGER.info("Usuario con el método findByUserEmail "+userRepository.findByUserEmail("Diego@email")
+//                .orElseThrow(()-> new RuntimeException("No se encontró el usuario")));
+//
+//        userRepository.findAndSort("U", Sort.by("id").ascending())
+//                .stream()
+//                .forEach(user-> LOGGER.info("Usuario con método sort"+user));
+//
+//        userRepository.findByName("Jhon")
+//                .stream()
+//                .forEach(user -> LOGGER.info("Usuario con query method "+user));
+//
+//        LOGGER.info("usuario con query method findByEmailAndName "+userRepository.findByEmailAndName("Diego@email", "Diego")
+//                .orElseThrow(()->new RuntimeException("Usuario no encontrado")));
+//
+//        userRepository.findByNameLike("%J%")
+//                .stream()
+//                .forEach(user -> LOGGER.info("Usuario findByNameLike"+user));
+//
+//
+//        userRepository.findByNameOrEmail("Diego", null)
+//                .stream()
+//                .forEach(user -> LOGGER.info("Usuario findByNameOrEmail"+user));
 
-        userRepository.findAndSort("U", Sort.by("id").ascending())
+        userRepository
+                .findByBirthdateBetween(LocalDate.of(2021,3,1),LocalDate.of(2021,7,10) )
                 .stream()
-                .forEach(user-> LOGGER.info("Usuario con método sort"+user));
+                .forEach(user -> LOGGER.info("Usuario con intervalo de fechas:"+user));
+
+        userRepository.findByNameLikeOrderByIdDesc("%u%")
+                .stream()
+                .forEach(user -> LOGGER.info("Usuario encontrafdo con like y ordenaado "+user));
+
+        userRepository.findByNameContainingOrderByIdAsc("u")
+                .stream()
+                .forEach(user -> LOGGER.info("Usuario encontrafdo con containing y ordenaado "+user));
+
 
     }
 
@@ -71,7 +101,7 @@ public class Fundamentos2Application implements CommandLineRunner {
         User user1 = new User("Jhon","Jhon@email", LocalDate.of(2021, 03, 20));
         User user2 = new User("Diego","Diego@email", LocalDate.of(2002, 06, 30));
         User user3 = new User("Andres","Andres@email", LocalDate.of(2002, 05, 1));
-        User user4 = new User("UMarisol", "marisol@domain.com", LocalDate.of(2021, 6, 18));
+        User user4 = new User("Jhon", "marisol@domain.com", LocalDate.of(2021, 6, 18));
         User user5 = new User("UKaren", "karen@domain.com", LocalDate.of(2021, 1, 1));
         User user6 = new User("UCarlos", "carlos@domain.com", LocalDate.of(2021, 7, 7));
         User user7 = new User("UEnrique", "enrique@domain.com", LocalDate.of(2021, 11, 12));
