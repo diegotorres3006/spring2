@@ -1,5 +1,7 @@
 package com.fundamentosplatzi.springboot.fundamentos2.emtity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class Post {
     private String description;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     public Post() {
